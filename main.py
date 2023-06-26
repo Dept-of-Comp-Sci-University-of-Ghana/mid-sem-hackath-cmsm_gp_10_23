@@ -13,7 +13,7 @@ warnings.filterwarnings('ignore')
 
 
 # Access the dataset
-dataset = pd.read_csv('~/PycharmProjects/SuicideDetectionModel/Suicide_Detection.csv', nrows=10000)
+dataset = pd.read_csv('~/Documents/Suicide_Detection.csv', nrows=10000)
 
 # check to print first 10 rows of the dataset, used to ensure it is being accessed
 print(dataset.head())
