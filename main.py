@@ -10,10 +10,8 @@ from nltk.tokenize import word_tokenize
 warnings.filterwarnings('ignore')
 
 
-
-
 # Access the dataset
-dataset = pd.read_csv('~/Documents/Suicide_Detection.csv', nrows=10000)
+dataset = pd.read_csv('./Suicide_Detection.csv', nrows=10000)
 
 # check to print first 10 rows of the dataset, used to ensure it is being accessed
 print(dataset.head())
@@ -22,7 +20,8 @@ print("\n")
 print(dataset['class'].value_counts())
 
 # train the model on existing data
-train_data,test_data=train_test_split(dataset,test_size=0.2,random_state=10)
+train_data, test_data = train_test_split(
+    dataset, test_size=0.2, random_state=10)
 
 '''
 # Chart to show distribution of suicide and not suicide
@@ -33,6 +32,7 @@ plt.title('SUICIDE OR NOT ?',fontdict={'size':20})
 plt.show()
 '''
 
+
 # Function to clean and preprocess data for building the sentiment analysis model
 def preprocessing(text):
     nlp = spacy.load('en_core_web_sm')
@@ -40,7 +40,8 @@ def preprocessing(text):
     cleaned_text = []
 
     # Perform lowercase and remove special characters
-    processed_text = ' '.join(token.lemma_.lower() for token in doc if not token.is_punct)
+    processed_text = ' '.join(token.lemma_.lower()
+                              for token in doc if not token.is_punct)
 
     # Stopword removal
     stop_words = spacy.lang.en.stop_words.STOP_WORDS
@@ -59,33 +60,7 @@ cleaned_train_text = train_data['text'].apply(preprocessing)
 cleaned_test_text = test_data['text'].apply(preprocessing)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#the code below this is to be integrated into the evaluation if necessary
+# the code below this is to be integrated into the evaluation if necessary
 
 """
 #function to put all collected tweet data into a dictionary and print it out
