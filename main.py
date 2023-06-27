@@ -4,14 +4,17 @@ import pandas as pd
 import spacy
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
-
+from sklearn.feature_extraction.text import CountVectorizer
+from wordcloud import WordCloud
+from sklearn.linear_model import LogisticRegression
 import nltk
 from nltk.tokenize import word_tokenize
 warnings.filterwarnings('ignore')
 
 
 # Access the dataset
-dataset = pd.read_csv('./Suicide_Detection.csv', nrows=10000)
+#dataset = pd.read_csv('./Suicide_Detection.csv', nrows=10000)
+dataset = pd.read_csv('~/Documents/Suicide_Detection.csv', nrows=50)
 
 # check to print first 10 rows of the dataset, used to ensure it is being accessed
 print(dataset.head())
@@ -20,8 +23,8 @@ print("\n")
 print(dataset['class'].value_counts())
 
 # train the model on existing data
-train_data, test_data = train_test_split(
-    dataset, test_size=0.2, random_state=10)
+#train_data, test_data = train_test_split(
+    #dataset, test_size=0.2, random_state=10)
 
 '''
 # Chart to show distribution of suicide and not suicide
@@ -56,8 +59,52 @@ def preprocessing(text):
     return cleaned_text
 
 
-cleaned_train_text = train_data['text'].apply(preprocessing)
-cleaned_test_text = test_data['text'].apply(preprocessing)
+#cleaned_train_text = train_data['text'].apply(preprocessing)
+#cleaned_test_text = test_data['text'].apply(preprocessing)
+
+# Mapping the labels column
+label_mapping = {'suicide': 1, 'non-suicide': 0}
+dataset['class'] = dataset['class'].map(label_mapping)
+
+
+dataset['cleaned_text'] = dataset['text'].apply(preprocessing)
+
+dataset['text'] = dataset['cleaned_text'].str.join(' ')
+
+
+vect = CountVectorizer(max_features=100)
+#fit the vectorizer to the text column
+vect.fit(dataset.text)
+
+#transform the text column
+X_text = vect.fit_transform(dataset['text'])
+
+#X_text = vect.fit_transform(dataset['cleaned_text'].str.join(' '))
+
+#Create the BOW (Bag of Words) representation
+X_df=pd.DataFrame(X_text.toarray(), columns=vect.get_feature_names_out())
+print(X_df.head())
+
+#Convert DataFrame to dictionary for wordcloud creation
+words = X_df.sum().to_dict()
+wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(words)
+
+#Plotting the wordcloud
+plt.figure(figsize=(10, 6))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')
+plt.show()
+
+#split the dataset
+#train_data, test_data = train_test_split(
+    #dataset, test_size=0.2, random_state=10)
+
+#y = dataset['class']
+#X = dataset.drop('class', axis=1)
+
+#log_reg = LogisticRegression().fit(X, y)
+#print('Accuracy of logistic regression: ', log_reg.score(X, y))
+
 
 
 # the code below this is to be integrated into the evaluation if necessary
