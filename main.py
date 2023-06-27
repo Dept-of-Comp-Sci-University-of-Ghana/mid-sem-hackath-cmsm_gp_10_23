@@ -14,7 +14,7 @@ warnings.filterwarnings('ignore')
 
 # Access the dataset
 #dataset = pd.read_csv('./Suicide_Detection.csv', nrows=10000)
-dataset = pd.read_csv('~/Documents/Suicide_Detection.csv', nrows=50)
+dataset = pd.read_csv('~/Documents/Suicide_Detection.csv', nrows=1000)
 
 # check to print first 10 rows of the dataset, used to ensure it is being accessed
 print(dataset.head())
@@ -62,7 +62,7 @@ def preprocessing(text):
 #cleaned_train_text = train_data['text'].apply(preprocessing)
 #cleaned_test_text = test_data['text'].apply(preprocessing)
 
-# Mapping the labels column
+# Mapping the class column. Suicide maps to 1, non-suicide maps to 0
 label_mapping = {'suicide': 1, 'non-suicide': 0}
 dataset['class'] = dataset['class'].map(label_mapping)
 
