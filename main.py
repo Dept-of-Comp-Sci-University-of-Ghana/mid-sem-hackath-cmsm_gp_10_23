@@ -134,7 +134,7 @@ print(f"test_precision: {test_precision}")
 print(f"test_recall: {test_recall}")
 print(f"test_f1_score: {test_f1_score}")
 
-model_filepath = '~/Suicide_model/model.pkl'
+model_filepath = 'Suicide_model/model.pkl'
 
 # Save the model
 with open(model_filepath, 'wb') as file:
