@@ -26,19 +26,6 @@ print(dataset.head())
 print("\n")
 print(dataset['class'].value_counts())
 
-# train the model on existing data
-#train_data, test_data = train_test_split(
-    #dataset, test_size=0.2, random_state=10)
-
-'''
-# Chart to show distribution of suicide and not suicide
-plt.figure(figsize=(12,10))
-plt.pie(train_data['class'].value_counts(),startangle=90,colors=['#FF0000','#000fbb'],
-        autopct='%0.2f%%',labels=['suicide','Not Suicide'])
-plt.title('SUICIDE OR NOT ?',fontdict={'size':20})
-plt.show()
-'''
-
 
 # Function to clean and preprocess data for building the sentiment analysis model
 def preprocessing(text):
@@ -63,9 +50,6 @@ def preprocessing(text):
     return cleaned_text
 
 
-#cleaned_train_text = train_data['text'].apply(preprocessing)
-#cleaned_test_text = test_data['text'].apply(preprocessing)
-
 # Mapping the class column. Suicide maps to 1, non-suicide maps to 0
 label_mapping = {'suicide': 1, 'non-suicide': 0}
 dataset['class'] = dataset['class'].map(label_mapping)
@@ -83,8 +67,6 @@ vect.fit(dataset.text)
 #transform the text column
 X_text = vect.fit_transform(dataset['text'])
 
-#X_text = vect.fit_transform(dataset['cleaned_text'].str.join(' '))
-
 #Create the BOW (Bag of Words) representation
 X_df=pd.DataFrame(X_text.toarray(), columns=vect.get_feature_names_out())
 print(X_df.head())
@@ -94,7 +76,6 @@ words = X_df.sum().to_dict()
 wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(words)
 
 #Plotting the wordcloud
-#plt.figure(figsize=(10, 6))
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis('off')
 plt.show()
@@ -102,10 +83,6 @@ plt.show()
 # split the dataset
 X_train, X_test, y_train, y_test = train_test_split(
     X_df, dataset['class'], test_size=0.2, random_state=10)
-
-# define matrix of features and target variable
-#X_train = X_df
-#y_train = dataset['class']
 
 # build logistic regression model
 log_reg = LogisticRegression().fit(X_train, y_train)
