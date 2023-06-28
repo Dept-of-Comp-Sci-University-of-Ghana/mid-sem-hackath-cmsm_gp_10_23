@@ -100,9 +100,6 @@ plt.axis('off')
 plt.show()
 
 # split the dataset
-#train_data, test_data = train_test_split(
-    #dataset, test_size=0.2, random_state=10)
-
 X_train, X_test, y_train, y_test = train_test_split(
     X_df, dataset['class'], test_size=0.2, random_state=10)
 
@@ -150,6 +147,7 @@ plt.title('Evaluation Metrics')
 plt.legend()
 plt.show()
 
+#print evaluation metrics
 print(f"train_accuracy: {train_accuracy}")
 print(f"train_precision: {train_precision}")
 print(f"train_recall: {train_recall}")
@@ -159,7 +157,7 @@ print(f"test_precision: {test_precision}")
 print(f"test_recall: {test_recall}")
 print(f"test_f1_score: {test_f1_score}")
 
-model_filepath = '/Users/user/PycharmProjects/mid-sem-hackath-cmsm_gp_10_23/model.pkl'
+model_filepath = '~/Suicide_model/model.pkl'
 
 # Save the model
 with open(model_filepath, 'wb') as file:
