@@ -8,6 +8,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from wordcloud import WordCloud
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
 import nltk
 from nltk.tokenize import word_tokenize
 warnings.filterwarnings('ignore')
@@ -15,7 +16,9 @@ warnings.filterwarnings('ignore')
 
 # Access the dataset
 #dataset = pd.read_csv('./Suicide_Detection.csv', nrows=10000)
-dataset = pd.read_csv('~/Documents/Suicide_Detection.csv', nrows=10)
+
+dataset = pd.read_csv('~/Documents/Suicide_Detection.csv', nrows=10000)
+
 
 # check to print first 5 rows of the dataset, used to ensure it is being accessed
 print(dataset.head())
@@ -91,27 +94,40 @@ words = X_df.sum().to_dict()
 wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(words)
 
 #Plotting the wordcloud
-plt.figure(figsize=(10, 6))
+#plt.figure(figsize=(10, 6))
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis('off')
 plt.show()
 
 # split the dataset
-train_data, test_data = train_test_split(
-    dataset, test_size=0.2, random_state=10)
+#train_data, test_data = train_test_split(
+    #dataset, test_size=0.2, random_state=10)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X_df, dataset['class'], test_size=0.2, random_state=10)
 
 # define matrix of features and target variable
-X_train = X_df
-y_train = dataset['class']
+#X_train = X_df
+#y_train = dataset['class']
 
 # build logistic regression model
 log_reg = LogisticRegression().fit(X_train, y_train)
 #predict on training data
 y_train_pred = log_reg.predict(X_train)
 
-# calculate accuracy
+# calculate accuracy on training data
 train_accuracy = accuracy_score(y_train, y_train_pred)
 print("Accuracy on training data:", train_accuracy)
+
+#predict on testing data
+y_test_pred = log_reg.predict(X_test)
+
+#calculate accuracy on testing data
+test_accuracy = accuracy_score(y_test, y_test_pred)
+print("Accuracy on testing data:", test_accuracy)
+
+# confusion matrix
+print(confusion_matrix(y_test, y_test_pred)/len(y_test))
 
 
 
