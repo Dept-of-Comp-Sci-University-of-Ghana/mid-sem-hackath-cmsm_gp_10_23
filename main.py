@@ -96,17 +96,20 @@ plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis('off')
 plt.show()
 
-#split the dataset
+# split the dataset
 train_data, test_data = train_test_split(
     dataset, test_size=0.2, random_state=10)
 
+# define matrix of features and target variable
 X_train = X_df
 y_train = dataset['class']
 
-
+# build logistic regression model
 log_reg = LogisticRegression().fit(X_train, y_train)
+#predict on training data
 y_train_pred = log_reg.predict(X_train)
 
+# calculate accuracy
 train_accuracy = accuracy_score(y_train, y_train_pred)
 print("Accuracy on training data:", train_accuracy)
 
