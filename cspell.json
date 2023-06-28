@@ -3,7 +3,17 @@
   "ignorePaths": [],
   "dictionaryDefinitions": [],
   "dictionaries": [],
-  "words": ["pred", "toarray", "vectorizer"],
+  "words": [
+    "matplotlib",
+    "nrows",
+    "pred",
+    "punct",
+    "pyplot",
+    "sklearn",
+    "spacy",
+    "toarray",
+    "vectorizer"
+  ],
   "ignoreWords": [],
   "import": []
 }
